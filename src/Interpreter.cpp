@@ -4,10 +4,22 @@
 
 #include "Interpreter.h"
 
+#include "FileIO.h"
+
 Yisp::Interpreter::Interpreter(const char *file_name) {
     // TODO: 增加文件输入
+    Frame global_frame{Frame::global()};
     file_name_string = file_name;
-
+    std::string code_from_file = FileIO::read_from_file(file_name);
+    try {
+        if (code_from_file.length() < 1) {
+            throw no_code("No code entered");
+        } else {
+            auto output = rep(code_from_file, global_frame);
+        }
+    } catch (std::runtime_error &e) {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 std::string Yisp::Interpreter::getinput() {
@@ -37,7 +49,7 @@ void Yisp::Interpreter::repl() {
             } else if (input == "(exit)") {
                 break;
             } else {
-                auto output = Yisp::Interpreter::rep(input, global_frame);
+                auto output = rep(input, global_frame);
                 Printer::format_print(output);
             }
         }

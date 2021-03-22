@@ -132,8 +132,7 @@ Yisp::Type::YispAST Yisp::Operators::_not(std::vector<Yisp::Type::YispAST> args)
     if (args.size() != 1) {
         throw invalid_arg_size("(not <list>)", args.size(), 1);
     }
-    return (args.front().type == Yisp::Type::Type::False) ? Yisp::Type::YispAST::create_true()
-                                                          : Yisp::Type::YispAST::create_false();
+    return (args.front().type == Yisp::Type::Type::False) ? Yisp::Type::YispAST::create_true() : Yisp::Type::YispAST::create_false();
 }
 
 /// (and <bool-1> ... <bool-n>) -> Yisp::type::YispAST.True | Yisp::type::YispAST.False

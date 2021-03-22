@@ -31,4 +31,9 @@ public:
     explicit no_code(const std::string &what) : std::runtime_error(";No code entered: " + what + ".") {};
 };
 
+class file_not_found : public std::runtime_error {
+public:
+    explicit file_not_found(const std::string &what) : std::runtime_error(";File not found: " + what + ".") {};
+};
+
 #endif // EXCEPTION_H
