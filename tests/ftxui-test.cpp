@@ -12,7 +12,7 @@
 
 using namespace ftxui;
 
-class CompilerComponent : public Component {
+class YispTUI : public Component {
     Container container = Container::Horizontal();
     Container subcontainer = Container::Vertical();
     Container input_container = Container::Horizontal();
@@ -20,9 +20,7 @@ class CompilerComponent : public Component {
     Menu input;
 
 public:
-    ~CompilerComponent() override {}
-
-    CompilerComponent() {
+    YispTUI() {
         Add(&container);
         container.Add(&subcontainer);
 
@@ -38,13 +36,15 @@ public:
         input_container.Add(&input);
     }
 
+    ~YispTUI() override = default;
+
     Element Render() override {
         auto input_win = window(text(L"Code"), hbox({text(L"~#: "), input_add.Render()}) | flex) | flex;
         return vbox({
-            hbox(text(L"    Welcome to Yisp, Use (exit) to exit   ") | border | center | flex | color(Color::Cyan)),
-            hbox(input_win),
-            hflow(RenderCommandLine()),
-        }) | border;
+                            hbox(text(L"    Welcome to Yisp, Use (exit) to exit   ") | border | center | flex | color(Color::Cyan)),
+                            hbox(input_win),
+                            hflow(RenderCommandLine()),
+                    }) | border;
     }
 
     Elements RenderCommandLine() {
@@ -59,17 +59,7 @@ public:
 
 int main(int argc, const char *argv[]) {
     auto screen = ScreenInteractive::Fullscreen();
-
-    std::thread update([&screen]() {
-        for (;;) {
-            using namespace std::chrono_literals;
-            std::this_thread::sleep_for(0.05s);
-            screen.PostEvent(Event::Custom);
-        }
-    });
-
-    CompilerComponent tab;
+    YispTUI tab;
     screen.Loop(&tab);
-
     return 0;
 }
