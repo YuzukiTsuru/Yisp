@@ -7,15 +7,15 @@
 #include "FileIO.h"
 
 Yisp::Interpreter::Interpreter(const char *file_name) {
-    // TODO: 增加文件输入
     Frame global_frame{Frame::global()};
     file_name_string = file_name;
     std::string code_from_file = FileIO::read_from_file(file_name);
     try {
         if (code_from_file.length() < 1) {
-            throw no_code("No code entered");
+            throw no_code();
         } else {
             auto output = rep(code_from_file, global_frame);
+            Printer::format_print(output);
         }
     } catch (std::runtime_error &e) {
         std::cout << e.what() << std::endl;
@@ -45,7 +45,7 @@ void Yisp::Interpreter::repl() {
         chrono_tp start_time = get_time_now();
         try {
             if (input.length() < 1) {
-                throw no_code("No code entered");
+                throw no_code();
             } else if (input == "(exit)") {
                 break;
             } else {

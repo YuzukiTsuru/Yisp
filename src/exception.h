@@ -28,12 +28,12 @@ public:
 
 class no_code : public std::runtime_error {
 public:
-    explicit no_code(const std::string &what) : std::runtime_error(";No code entered: " + what + ".") {};
+    explicit no_code() : std::runtime_error(";No code entered.") {};
 };
 
 class file_not_found : public std::runtime_error {
 public:
-    explicit file_not_found(const std::string &what) : std::runtime_error(";File not found: " + what + ".") {};
+    explicit file_not_found(const std::string &what) : std::runtime_error(";File not found, " + what + ".") {};
 };
 
 #endif // EXCEPTION_H
