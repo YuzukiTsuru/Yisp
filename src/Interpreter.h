@@ -20,19 +20,6 @@ namespace Yisp {
     public:
         explicit Interpreter(const char *file_name);
 
-        static void repl();
-
-    private:
-        std::string file_name_string;
-
-        using chrono_tp = std::chrono::system_clock::time_point;
-
-        static chrono_tp get_time_now();
-
-        static double get_elapsed_msec(chrono_tp st, chrono_tp end);
-
-        static std::string getinput();
-
         static std::string rep(const std::string &line, Frame &frame);
     };
 }

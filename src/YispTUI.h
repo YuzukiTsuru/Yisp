@@ -5,10 +5,35 @@
 #ifndef YISP_YISPTUI_H
 #define YISP_YISPTUI_H
 
+#include "Frame.h"
+
+#include "ftxui/component/checkbox.hpp"
+#include "ftxui/component/container.hpp"
+#include "ftxui/component/input.hpp"
+#include "ftxui/component/menu.hpp"
+#include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/screen/string.hpp"
+
 namespace Yisp {
-    class YispTUI {
+    using namespace ftxui;
 
+    class YispTUI : public Component {
+    public:
+        explicit YispTUI(Frame frame);
+
+        ~YispTUI() override = default;
+
+        Element Render() override;
+
+        Elements RenderCommandLine();
+
+    private:
+        Container container = Container::Horizontal();
+        Container subcontainer = Container::Vertical();
+        Container input_container = Container::Horizontal();
+        Input input_add;
+        Menu input;
+        Frame global_frame;
     };
-
 }
 #endif //YISP_YISPTUI_H
