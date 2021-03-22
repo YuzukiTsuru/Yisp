@@ -41,7 +41,7 @@ public:
     Element Render() override {
         auto input_win = window(text(L"Code"), hbox({text(L"~#: "), input_add.Render()}) | flex) | flex;
         return vbox({
-            hbox(text(L"  W") | border | center | flex ),
+            hbox(text(L"    Welcome to Yisp, Use (exit) to exit   ") | border | center | flex | color(Color::Cyan)),
             hbox(input_win),
             hflow(RenderCommandLine()),
         }) | border;
