@@ -28,29 +28,3 @@ std::string Yisp::Interpreter::rep(const std::string &line, Frame &frame) {
     return output;
 }
 
-//void Yisp::Interpreter::repl() {
-//    Frame global_frame{Frame::global()};
-//    Printer::welcome();
-//    std::string input;
-//    while (true) {
-//        Printer::prompt();
-//        input = Yisp::Interpreter::getinput();
-//        chrono_tp start_time = get_time_now();
-//        try {
-//            if (input.length() < 1) {
-//                throw no_code();
-//            } else if (input == "(exit)") {
-//                break;
-//            } else {
-//                auto output = rep(input, global_frame);
-//                Printer::format_print(output);
-//            }
-//        }
-//        catch (std::runtime_error &err) {
-//            std::cout << err.what() << std::endl;
-//        }
-//        chrono_tp end_time = get_time_now();
-//        std::cout << ";Spend " << get_elapsed_msec(start_time, end_time) << " ms" << std::endl;
-//    }
-//}
-

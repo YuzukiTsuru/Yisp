@@ -7,7 +7,6 @@
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
-        //Yisp::Interpreter::repl();
         Yisp::Frame global_frame{Yisp::Frame::global()};
         Yisp::YispTUI yispTui(global_frame);
         auto screen = Yisp::ScreenInteractive::Fullscreen();

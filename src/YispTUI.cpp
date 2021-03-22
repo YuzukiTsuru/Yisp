@@ -28,7 +28,7 @@ ftxui::Element Yisp::YispTUI::Render() {
     return vbox({
                         hbox(text(L"   Welcome to Yisp   ") | border | center | color(Color::Cyan)),
                         hbox(input_win),
-                        vbox(RenderCommandLine()),
+                        window(text(L" Output "), vbox(RenderCommandLine())),
                 }) | border;
 }
 
@@ -41,6 +41,8 @@ ftxui::Elements Yisp::YispTUI::RenderCommandLine() {
 
         if (input_code.length() < 1) {
             output = ";No code entered.";
+        } else if (input_code == "(exit)") {
+            std::exit(0);
         } else {
             try {
                 output = Printer::format_print(Interpreter::rep(input_code, global_frame));
