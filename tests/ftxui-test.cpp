@@ -1,81 +1,75 @@
-//
-// Created by YuzukiTsuru on 2021/3/22.
-//
-
-#include <iostream>
+#include <cmath>
 #include <thread>
 
+#include "ftxui/component/checkbox.hpp"
 #include "ftxui/component/container.hpp"
+#include "ftxui/component/input.hpp"
 #include "ftxui/component/menu.hpp"
+#include "ftxui/component/radiobox.hpp"
 #include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/component/toggle.hpp"
 #include "ftxui/screen/string.hpp"
 
 using namespace ftxui;
 
-class MyComponent : public Component {
-public:
-    MyComponent() {
-        Add(&container);
-
-        for (Menu* menu : {&menu_1, &menu_2, &menu_3, &menu_4, &menu_5, &menu_6}) {
-            container.Add(menu);
-            menu->entries = {
-                    L"Monkey", L"Dog", L"Cat", L"Bird", L"Elephant",
-            };
-            menu->on_enter = [this]() { on_enter(); };
-        }
-
-        menu_2.selected_style = color(Color::Blue);
-        menu_2.focused_style = bold | color(Color::Blue);
-
-        menu_3.selected_style = color(Color::Blue);
-        menu_3.focused_style = bgcolor(Color::Blue);
-
-        menu_4.selected_style = bgcolor(Color::Blue);
-        menu_4.focused_style = bgcolor(Color::BlueLight);
-
-        menu_5.normal_style = bgcolor(Color::Blue);
-        menu_5.selected_style = bgcolor(Color::Yellow);
-        menu_5.focused_style = bgcolor(Color::Red);
-
-        menu_6.normal_style = dim | color(Color::Blue);
-        menu_6.selected_style = color(Color::Blue);
-        menu_6.focused_style = bold | color(Color::Blue);
-    }
-
-    std::function<void()> on_enter = []() {};
-
-private:
+class CompilerComponent : public Component {
     Container container = Container::Horizontal();
-    Menu menu_1;
-    Menu menu_2;
-    Menu menu_3;
-    Menu menu_4;
-    Menu menu_5;
-    Menu menu_6;
+    Container subcontainer = Container::Vertical();
+    Container input_container = Container::Horizontal();
+    Input input_add;
+    Menu input;
 
-    // clang-format off
-    Element Render() override {
-        return
-                hbox({
-                             menu_1.Render() | flex, separator(),
-                             menu_2.Render() | flex, separator(),
-                             menu_3.Render() | flex, separator(),
-                             menu_4.Render() | flex, separator(),
-                             menu_5.Render() | flex, separator(),
-                             menu_6.Render() | flex,
-                     }) | border;
+public:
+    ~CompilerComponent() override {}
+
+    CompilerComponent() {
+        Add(&container);
+        container.Add(&subcontainer);
+
+        // Input    ----------------------------------------------------------------
+        subcontainer.Add(&input_container);
+
+        input_add.placeholder = L"input files";
+        input_add.on_enter = [this] {
+            input.entries.push_back(input_add.content);
+            input_add.content = L"";
+        };
+        input_container.Add(&input_add);
+        input_container.Add(&input);
     }
-    // clang-format on
+
+    Element Render() override {
+        auto input_win = window(text(L"Code"), hbox({text(L"~#: "), input_add.Render()}) | flex) | flex;
+        return vbox({
+            hbox(text(L"  W") | border | center | flex ),
+            hbox(input_win),
+            hflow(RenderCommandLine()),
+        }) | border;
+    }
+
+    Elements RenderCommandLine() {
+        Elements line;
+        // Input
+        for (auto &it : input.entries) {
+            line.push_back(text(L" " + it) | color(Color::RedLight));
+        }
+        return line;
+    }
 };
 
-int main(int argc, const char* argv[]) {
-    auto screen = ScreenInteractive::TerminalOutput();
-    MyComponent component;
-    component.on_enter = screen.ExitLoopClosure();
-    screen.Loop(&component);
-}
+int main(int argc, const char *argv[]) {
+    auto screen = ScreenInteractive::Fullscreen();
 
-// Copyright 2020 Arthur Sonzogni. All rights reserved.
-// Use of this source code is governed by the MIT license that can be found in
-// the LICENSE file.
+    std::thread update([&screen]() {
+        for (;;) {
+            using namespace std::chrono_literals;
+            std::this_thread::sleep_for(0.05s);
+            screen.PostEvent(Event::Custom);
+        }
+    });
+
+    CompilerComponent tab;
+    screen.Loop(&tab);
+
+    return 0;
+}

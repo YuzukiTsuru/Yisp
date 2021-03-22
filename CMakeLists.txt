@@ -24,3 +24,6 @@ target_link_libraries(Yisp PRIVATE ftxui::screen ftxui::dom ftxui::component)
 if (MSVC)
     target_compile_options(Yisp PUBLIC "/utf-8")
 endif ()
+
+add_executable(test tests/ftxui-test.cpp)
+target_link_libraries(test PRIVATE ftxui::screen ftxui::dom ftxui::component)
