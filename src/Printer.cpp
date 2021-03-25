@@ -44,10 +44,25 @@ std::string Yisp::Printer::ast_to_string(const Type::YispAST &ast) {
     return result;
 }
 
+
 std::string Yisp::Printer::print(const Type::YispAST &ast) {
     return ast_to_string(ast);
 }
 
-std::string Yisp::Printer::format_print(const std::string &ast_str) {
-    return ";Value: " + ast_str;
+void Yisp::Printer::format_print(const std::string &ast_str) {
+    std::string output = ";Value: " + ast_str;
+    std::cout << output << std::endl;
+}
+
+std::string Yisp::Printer::format_output(const std::string &ast_str) {
+    std::string output = ";Value: " + ast_str;
+    return output;
+}
+
+void Yisp::Printer::prompt() {
+    std::cout << ">>> ";
+}
+
+void Yisp::Printer::welcome() {
+    std::cout << ";Welcome to Yisp..\n;Use (exit) to exit" << std::endl;
 }

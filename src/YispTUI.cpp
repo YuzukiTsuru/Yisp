@@ -45,7 +45,7 @@ ftxui::Elements Yisp::YispTUI::RenderCommandLine() {
             std::exit(0);
         } else {
             try {
-                output = Printer::format_print(Interpreter::rep(input_code, global_frame));
+                output = Printer::format_output(Interpreter::rep(input_code, global_frame));
             } catch (std::runtime_error &err) {
                 output = err.what();
             }

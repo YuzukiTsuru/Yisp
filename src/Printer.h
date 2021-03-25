@@ -16,7 +16,14 @@ namespace Yisp {
     public:
         static std::string print(const Type::YispAST &ast);
 
-        static std::string format_print(const std::string &ast);
+        static void format_print(const std::string &ast);
+
+        static std::string format_output(const std::string &ast_str);
+
+        static void prompt();
+
+        static void welcome();
+
     private:
         static std::string ast_to_string(const Type::YispAST &ast);
     };

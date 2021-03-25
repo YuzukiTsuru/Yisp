@@ -6,10 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(lib/ftxui)
+add_subdirectory(lib/argpaser)
 
 include_directories(
         src/
         lib/ftxui/include/
+        lib/argpaser/include/
 )
 
 if (MSVC)
@@ -19,7 +21,7 @@ endif ()
 aux_source_directory(src SRC)
 
 # Main program
-add_executable(Yisp ${SRC})
+add_executable(Yisp ${SRC} src/Repl.cpp src/Repl.h)
 target_link_libraries(Yisp PRIVATE ftxui::screen ftxui::dom ftxui::component)
 if (MSVC)
     target_compile_options(Yisp PUBLIC "/utf-8")
