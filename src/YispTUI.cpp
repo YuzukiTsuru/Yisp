@@ -6,7 +6,6 @@
 #include "YispTUI.h"
 
 #include "Interpreter.h"
-#include "Printer.h"
 
 Yisp::YispTUI::YispTUI(Frame frame) {
     global_frame = std::move(frame);
