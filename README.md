@@ -1,2 +1,2 @@
 # Yisp
-Yuzuki lisp compiler
+Yuzuki lisp Interpreter
