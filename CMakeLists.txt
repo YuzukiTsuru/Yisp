@@ -14,14 +14,15 @@ include_directories(
         lib/argpaser/include/
 )
 
-if (MSVC)
-    add_definitions(-DMSVC)
-endif ()
-
 aux_source_directory(src SRC)
 
+if (MSVC)
+    add_definitions(-DMSVC)
+    set(SRC ${SRC} static/Yisp.rc)
+endif ()
+
 # Main program
-add_executable(Yisp ${SRC} src/Repl.cpp src/Repl.h)
+add_executable(Yisp ${SRC})
 target_link_libraries(Yisp PRIVATE ftxui::screen ftxui::dom ftxui::component)
 if (MSVC)
     target_compile_options(Yisp PUBLIC "/utf-8")
