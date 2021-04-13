@@ -2,8 +2,8 @@
 // Created by YuzukiTsuru on 2021/3/16.
 //
 
-#ifndef TypeS_H
-#define TypeS_H
+#ifndef YISPTYPE_H
+#define YISPTYPE_H
 
 #include <functional>
 #include <list>
@@ -81,4 +81,4 @@ namespace Yisp::Type {
     };
 }
 
-#endif // TypeS_H
+#endif // YISPTYPE_H
