@@ -23,10 +23,6 @@ namespace Yisp {
 
         ~YispTUI() override = default;
 
-        Element Render() override;
-
-        Elements RenderCommandLine();
-
     private:
         Container container = Container::Horizontal();
         Container subcontainer = Container::Vertical();
@@ -34,6 +30,10 @@ namespace Yisp {
         Input input_add;
         Menu input;
         Frame global_frame;
+
+        Element Render() override;
+
+        Elements RenderCommandLine();
     };
 }
 #endif //YISP_YISPTUI_H
